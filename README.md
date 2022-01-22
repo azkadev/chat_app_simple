@@ -36,15 +36,15 @@ open VSCode open folder chat_app_simple
 
 1. connect your phone on your pc and open terminal
 
-```bash
-adb reverse tcp:3000 tcp:3000
-```
+    ```bash
+    adb reverse tcp:3000 tcp:3000
+    ```
 
 2. start debugin on vscode with tap ```F5```
 
 3. run server
 open folder backend
 
-```bash
-npm install && node app
-```
+    ```bash
+    npm install && node app
+    ```
