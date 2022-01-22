@@ -1,8 +1,8 @@
-# chat_app_simple With Socket Io Node js
+# chat_app_simple Realtime With Socket Io Node js
 
 https://user-images.githubusercontent.com/82513502/150629608-fe4c3418-e1af-492c-87a0-90c240b743e6.mp4
 
-# CLone Repo
+## Clone Repo
 
 ```bash
 git clone https://github.com/azkadev/chat_app_simple.git
