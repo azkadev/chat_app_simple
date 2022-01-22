@@ -12,16 +12,6 @@ flutter pub get
 
 ## Build
 
-1. CLone Repo
-
-```bash
-git clone https://github.com/azkadev/chat_app_simple.git
-cd chat_app_simple
-flutter pub get
-```
-
-2. Build App command
-
 - Android
     ```bash
     flutter build android --release
