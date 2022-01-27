@@ -387,7 +387,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                               bottom: 7,
                                             ),
                                             child: Text(
-                                              widget.username,
+                                              isMe?widget.username:msg.username,
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
                                                   color: Color(0xFF594097),
