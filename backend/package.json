@@ -1,20 +1,19 @@
 {
-  "name": "chat_app_simple",
-  "version": "0.0.0",
+  "name": "backend",
+  "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "dependencies": {
-    "express": "^4.17.1",
-    "http": "^0.0.1-security",
-    "nodemon": "^2.0.12",
-    "socket.io": "^2.3.0"
-  },
-  "devDependencies": {
-    "@types/socket.io": "^3.0.2"
-  },
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "@azkadev",
+  "license": "ISC",
+  "engines": {
+    "node": "16.9.1"
+  },
+  "dependencies": {
+    "fastify": "^3.24.1",
+    "fastify-cors": "^6.0.2",
+    "fastify-socket.io": "^3.0.0"
+  }
 }
