@@ -230,7 +230,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     try {
-      socket = io("http://127.0.0.1:3000/", {
+      socket = io("https://hexaminate.herokuapp.com", {
         "transports": ["websocket"],
         "autoConnect": true,
       });
