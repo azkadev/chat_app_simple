@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
-import 'dart:convert';
 import 'package:socket_io_client/socket_io_client.dart';
 
 void main() async {
@@ -171,40 +170,6 @@ class SignState extends State<SignPage> {
   }
 }
 
-
-ChatModel chatModelFromJson(String str) => ChatModel.fromJson(json.decode(str));
-
-String chatModelToJson(ChatModel data) => json.encode(data.toJson());
-
-class ChatModel {
-  ChatModel({
-    required this.id,
-    required this.username,
-    required this.sentAt,
-    required this.message,
-  });
-
-  String id;
-  String username;
-  String sentAt;
-  String message;
-
-  factory ChatModel.fromJson(Map<String, dynamic> json) => ChatModel(
-        id: json["id"],
-        username: json["username"],
-        sentAt: json["sentAt"],
-        message: json["message"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "username": username,
-        "sentAt": sentAt,
-        "message": message,
-      };
-}
-
-
 class ChatScreen extends StatefulWidget {
   final String username;
   const ChatScreen({
@@ -213,50 +178,40 @@ class ChatScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  ChatScreenState createState() => ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  final List<ChatModel> _messages = [];
-
-  void setStateIfMounted(f) {
-    if (mounted) setState(f);
-  }
+class ChatScreenState extends State<ChatScreen> {
+  final TextEditingController messageController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final List messages = [];
 
   late Socket socket;
 
   @override
   void initState() {
-    try {
-      socket = io("https://hexaminate.herokuapp.com", {
-        "transports": ["websocket"],
-        "autoConnect": true,
-      });
-
-      socket.connect();
-
-      socket.on('connect', (data) {
-        debugPrint('connected');
-        print(socket.connected);
-      });
-
-      socket.on('message', (data) {
-        var message = ChatModel.fromJson(data);
-        
-        setStateIfMounted(() {
-          _messages.add(message);
-        });
-      });
-
-      socket.onDisconnect((_) => debugPrint('disconnect'));
-      print("oke");
-    } catch (e) {
-      print(e);
-    }
-
     super.initState();
+    socket = io("http://0.0.0.0:3000", {
+      "transports": ["websocket"],
+      "autoConnect": true,
+    });
+    socket.auth = {"username": widget.username};
+    socket.connect();
+    socket.on('connect', (data) {
+      print(socket.connected);
+    });
+
+    socket.on('message', (data) {
+      setState(() {
+        messages.add(data);
+      });
+    });
+
+    socket.on("disconnect", (data) {
+      print(data);
+      if (data == "transport close") {
+      } else if (data == "io server disconnect") {}
+    });
   }
 
   @override
@@ -284,11 +239,13 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(
                 width: 10.0,
               ),
+              /*
               CircleAvatar(
                 radius: 20,
                 backgroundColor: Colors.blueGrey[100],
                 backgroundImage: const AssetImage("assets/images/avatar-6.png"),
               ),
+              */
               const SizedBox(
                 width: 10.0,
               ),
@@ -312,11 +269,11 @@ class _ChatScreenState extends State<ChatScreen> {
               context: context,
               removeTop: true,
               child: ListView.builder(
-                controller: _scrollController,
+                controller: scrollController,
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
-                reverse: _messages.isEmpty ? false : true,
+                reverse: messages.isEmpty ? false : true,
                 itemCount: 1,
                 shrinkWrap: false,
                 itemBuilder: (BuildContext context, int index) {
@@ -328,16 +285,16 @@ class _ChatScreenState extends State<ChatScreen> {
                       bottom: 3,
                     ),
                     child: Column(
-                      mainAxisAlignment: _messages.isEmpty
+                      mainAxisAlignment: messages.isEmpty
                           ? MainAxisAlignment.center
                           : MainAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: _messages.map((msg) {
-                            bool isMe = msg.id == socket.id;
-                            String message = msg.message;
-                            String date = msg.sentAt;
+                          children: messages.map((msg) {
+                            bool isMe = msg["id"] == socket.id;
+                            String message = msg["message"];
+                            String date = msg["sentAt"];
                             return Container(
                               margin: const EdgeInsets.symmetric(
                                 horizontal: 12,
@@ -387,12 +344,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                               bottom: 7,
                                             ),
                                             child: Text(
-                                              isMe?widget.username:msg.username,
+                                              isMe
+                                                  ? widget.username
+                                                  : msg["username"],
                                               textAlign: TextAlign.end,
                                               style: const TextStyle(
-                                                  color: Color(0xFF594097),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
+                                                color: Color(0xFF594097),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -447,7 +407,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: TextField(
                 minLines: 1,
                 maxLines: 5,
-                controller: _messageController,
+                controller: messageController,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   hintText: "Type a message",
@@ -470,29 +430,29 @@ class _ChatScreenState extends State<ChatScreen> {
                     padding: const EdgeInsets.all(5.0),
                     child: InkWell(
                       child: const Icon(
-                        Iconsax.send_1,
+                        Iconsax.send1,
                         color: Colors.blue,
                         size: 25,
                       ),
                       onTap: () async {
-                        if (_messageController.text.trim().isNotEmpty) {
+                        if (messageController.text.trim().isNotEmpty) {
                           setState(() {
-                            String message = _messageController.text.trim();
+                            String message = messageController.text.trim();
                             socket.emit(
                               "message",
-                              ChatModel(
-                                      id: socket.id.toString(),
-                                      message: message,
-                                      username: widget.username,
-                                      sentAt: DateTime.now()
-                                          .toLocal()
-                                          .toString()
-                                          .substring(0, 16))
-                                  .toJson(),
+                              {
+                                "id": socket.id.toString(),
+                                "message": message,
+                                "username": widget.username,
+                                "sentAt": DateTime.now()
+                                    .toLocal()
+                                    .toString()
+                                    .substring(0, 16)
+                              },
                             );
-                            _messageController.clear();
-                            _scrollController.animateTo(
-                              _scrollController.position.maxScrollExtent *
+                            messageController.clear();
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent *
                                   -0.0100,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeOut,
