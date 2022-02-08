@@ -36,5 +36,5 @@ open VSCode open folder chat_app_simple
 open folder backend
 
     ```bash
-    npm install && node app
+    npm install && node index
     ```
