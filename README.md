@@ -1,40 +1,20 @@
-# chat_app_simple Realtime With Socket Io Node js
+IyBjaGF0X2FwcF9zaW1wbGUgUmVhbHRpbWUgV2l0aCBTb2NrZXQgSW8gTm9k
+ZSBqcwoKaHR0cHM6Ly91c2VyLWltYWdlcy5naXRodWJ1c2VyY29udGVudC5j
+b20vODI1MTM1MDIvMTUwNjI5NjA4LWZlNGMzNDE4LWUxYWYtNDkyYy04N2Ew
+LTkwYzI0MGI3NDNlNi5tcDQKCiMjIENsb25lIFJlcG8KCmBgYGJhc2gKZ2l0
+IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9hemthZGV2L2NoYXRfYXBwX3Np
+bXBsZS5naXQKY2QgY2hhdF9hcHBfc2ltcGxlCmZsdXR0ZXIgcHViIGdldApg
+YGAKCiMjIEJ1aWxkCgotIEFuZHJvaWQKICAgIGBgYGJhc2gKICAgIGZsdXR0
+ZXIgYnVpbGQgYW5kcm9pZCAtLXJlbGVhc2UKICAgIGBgYAotIExpbnV4CiAg
+ICBgYGBiYXNoCiAgICBmbHV0dGVyIGJ1aWxkIGxpbnV4IC0tcmVsZWFzZQog
+ICAgYGBgCgojIyBEZXZlbG9wCm9wZW4gVlNDb2RlIG9wZW4gZm9sZGVyIGNo
+YXRfYXBwX3NpbXBsZQoKMS4gY29ubmVjdCB5b3VyIHBob25lIG9uIHlvdXIg
+cGMgYW5kIG9wZW4gdGVybWluYWwKCiAgICBgYGBiYXNoCiAgICBhZGIgcmV2
+ZXJzZSB0Y3A6MzAwMCB0Y3A6MzAwMAogICAgYGBgCgoyLiBzdGFydCBkZWJ1
+Z2luIG9uIHZzY29kZSB3aXRoIHRhcCBgYGBGNWBgYAoKMy4gcnVuIHNlcnZl
+cgpvcGVuIGZvbGRlciBiYWNrZW5kCgogICAgYGBgYmFzaAogICAgbnBtIGlu
+c3RhbGwgJiYgbm9kZSBpbmRleAogICAgYGBg
 
-https://user-images.githubusercontent.com/82513502/150629608-fe4c3418-e1af-492c-87a0-90c240b743e6.mp4
-
-## Clone Repo
-
-```bash
-git clone https://github.com/azkadev/chat_app_simple.git
-cd chat_app_simple
-flutter pub get
-```
-
-## Build
-
-- Android
-    ```bash
-    flutter build android --release
-    ```
-- Linux
-    ```bash
-    flutter build linux --release
-    ```
-
-## Develop
-open VSCode open folder chat_app_simple
-
-1. connect your phone on your pc and open terminal
-
-    ```bash
-    adb reverse tcp:3000 tcp:3000
-    ```
-
-2. start debugin on vscode with tap ```F5```
-
-3. run server
-open folder backend
-
-    ```bash
-    npm install && node index
-    ```
+<!-- START GLOBAL CORPORATION -->
+404: Not Found
+<!-- END GLOBAL CORPORATION -->
